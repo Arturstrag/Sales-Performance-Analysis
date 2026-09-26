@@ -8,6 +8,7 @@ This project presents an analysis of simulated sales data for a fictional compan
 
 The main transaction table contains **15,000** sales records. The remaining tables serve as dimension and supporting tables. The data covers the period from January **2025** to December **2026**.
 
+
 ## Business objective
 
 The main objective was to create an interactive report enabling the analysis of:
