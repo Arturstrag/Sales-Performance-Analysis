@@ -9,9 +9,6 @@ This project presents an analysis of simulated sales data for a fictional compan
 The main transaction table contains **15,000** sales records. The remaining tables serve as dimension and supporting tables. The data covers the period from January **2025** to December **2026**.
 
 ## Table of contents
-- [Sales-Performance-Analysis](#sales-performance-analysis)
-  - [Project description](#project-description)
-  - [Table of contents](#table-of-contents)
   - [Business objective](#business-objective)
   - [Data structure](#data-structure)
   - [Data preparation and cleaning](#data-preparation-and-cleaning)
