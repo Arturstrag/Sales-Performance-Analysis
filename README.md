@@ -1,8 +1,11 @@
 # Sales-Performance-Analysis
 
-**Tools:** Microsoft Power BI, Power Query, DAX
+**Tools:**
+- **Microsoft Power BI** — used to build the interactive report, visualizations, filters, and drillthrough pages.
+- **Power Query** — used to clean, transform, and prepare the source data for the analytical model.
+- **DAX** — used to create measures and calculations for sales, margin, growth, and other business metrics.
 
-## Project description
+## Project description 📝
 
 This project tells the story of a fictional company operating on the Polish market and answers a simple business question: **what is driving sales growth, where is the business strongest, and where should management look next?**
 
@@ -10,7 +13,7 @@ The analysis is based on simulated data covering the period from **January 2025 
 
 The project follows the full analytical workflow: raw data preparation in Power Query, dimensional modeling, DAX measure development, and finally an interactive Power BI report designed to move from a high-level business overview to more detailed analysis of channels, customer segments, products, profitability, and transaction-level context.
 
-## Table of contents
+## Table of contents 📚
 
 - [Business objective](#business-objective)
 - [Data structure](#data-structure)
@@ -32,9 +35,10 @@ The project follows the full analytical workflow: raw data preparation in Power 
 - [Results](#results)
 - [Findings](#findings)
 - [Business recommendations](#business-recommendations)
+- [Business Development Opportunities](#business-development-opportunities)
 - [Summary](#summary)
 
-## Business objective
+## Business objective 🎯
 
 The purpose of the report was not only to present KPIs, but to create a guided analytical path. A user should be able to start with the overall business situation, identify the areas responsible for growth, and then move deeper into the data when a pattern requires explanation.
 
@@ -50,7 +54,7 @@ The report supports analysis of:
 - order status and cancellation share,
 - detailed context through tooltips and drillthrough pages.
 
-## Data structure
+## Data structure 🗂️
 
 The analytical model is built around the **`sprzedaz`** table, which acts as the main fact table. The remaining tables provide descriptive business context and allow the report to be filtered by time, customer, product, channel, and geography.
 
@@ -66,7 +70,7 @@ The analytical model is built around the **`sprzedaz`** table, which acts as the
 
 A dedicated **`_Measures`** table is used to organize DAX measures and keep analytical logic separate from descriptive data.
 
-## Data preparation and cleaning
+## Data preparation and cleaning 🧹
 
 The source data was intentionally prepared to resemble information coming from different business systems. Before any analysis could begin, the data had to be standardized and reshaped into a structure suitable for reporting.
 
@@ -93,31 +97,31 @@ As part of the preparation process:
 
 Once the fact table was cleaned, the descriptive dimensions were prepared. Customer, product, geography, and channel data were separated and standardized so that each business entity could be analyzed independently.
 
-### Customers
+### Customers 👥
 
 ![Customers table](screens/Tabela_klienci.png)
 
 The customer table provides the context needed to analyze sales by customer, segment, region, and account manager.
 
-### Products
+### Products 📦
 
 ![Products table](screens/Tabela_produkty.png)
 
 The product table contains the assortment hierarchy used in the report: product, brand, subcategory, category, and base price.
 
-### Geography
+### Geography 🌍
 
 ![Geography table](screens/Tabela_geografia.png)
 
 The geography table provides a single regional dimension that can filter both customer-based analysis and sales target analysis.
 
-### Sales channels
+### Sales channels 🛒
 
 ![Channels table](screens/Tabela_kanały.png)
 
 A separate channel dictionary was created from the sales data so that channel analysis is based on a consistent set of values.
 
-### Calendar
+### Calendar 📅
 
 A dedicated calendar table was created dynamically. Its date range is based on the minimum and maximum dates present in the transaction data, allowing the model to adapt to the source range instead of relying on manually entered boundaries.
 
@@ -127,7 +131,7 @@ The calendar was enriched with year, month number, month name, weekday number, a
 
 The M transformation code is available in the **ETL** folder.
 
-## Data model
+## Data model 🔗
 
 After the data was cleaned, it was organized into a relational model centered on the **`sprzedaz`** fact table. Most relationships follow a classic one-to-many structure: dimension tables contain unique business keys, while the sales table contains repeated foreign keys for individual transactions.
 
@@ -156,7 +160,7 @@ The **`cele`** table is slightly different from the other dimensions because tar
 
 Technical key columns were hidden where they were not needed by report users, keeping the field list focused on business-facing attributes and measures.
 
-## Data analysis using DAX
+## Data analysis using DAX 📈
 
 Once the model was in place, DAX measures were created to turn raw transactions into business indicators. The measure layer covers both basic aggregation and analytical context, including:
 
@@ -293,11 +297,11 @@ Classifies the margin into one of three categories based on the value of `[Marż
 
 The complete DAX measure dictionary is available in **`measures_DAX.txt`**.
 
-## Report structure and analytical flow
+## Report structure and analytical flow 📊
 
 The Power BI report contains **6 pages** in total. Three of them form the visible analytical story, while the remaining pages support contextual exploration through tooltip and drillthrough functionality.
 
-### 1. Main page — business overview
+### 1. Main page — business overview 🏠
 
 The first page answers the question: **how is the company performing overall?** It brings together the main KPIs and time-based performance indicators so that the user can immediately assess sales scale, profitability, transaction volume, and growth.
 
@@ -312,7 +316,7 @@ These slicers create a common analytical context that is reused across the main 
 
 ![Report page 1](images/Strona_1.png)
 
-### 2. Channels and customer segments
+### 2. Channels and customer segments 🛍️
 
 The second page shifts the story from overall performance to **where revenue comes from**. It compares the contribution of individual sales channels and customer segments and makes it possible to identify concentration in the commercial structure.
 
@@ -320,7 +324,7 @@ The same four slicers — year, region, channel, and segment — are available h
 
 ![Report page 2](images/Strona_2.png)
 
-### 3. Products and sales efficiency
+### 3. Products and sales efficiency 📦
 
 The third visible page focuses on **what is being sold and how efficiently the assortment generates value**. Product categories, individual products, sales value, and profitability can be analyzed together, which helps distinguish high-volume products from high-margin products.
 
@@ -328,7 +332,7 @@ Again, the page uses the same four slicers for year, region, channel, and custom
 
 ![Report page 3](images/Strona_3.png)
 
-### 4. Tooltip page
+### 4. Tooltip page 💬
 
 The report also contains a dedicated hidden **Tooltip** page. Instead of forcing the user to leave the current visual, the tooltip adds an extra layer of context directly on hover.
 
@@ -346,7 +350,7 @@ Depending on the current filter context, the tooltip can display measures such a
 
 This design supports the storytelling flow because a user can inspect an interesting point without interrupting the main analysis.
 
-### 5. Drillthrough 1 — product detail page
+### 5. Drillthrough 1 — product detail page 🔎
 
 The first hidden drillthrough-style page is designed as a detailed product view. It contains product-level fields such as:
 
@@ -359,7 +363,7 @@ The first hidden drillthrough-style page is designed as a detailed product view.
 - margin percentage,
 - margin class.
 
-### 6. Drillthrough 2 — monthly transaction detail
+### 6. Drillthrough 2 — monthly transaction detail 🧾
 
 The second hidden drillthrough page is actively configured around:
 
@@ -379,7 +383,7 @@ The detail view includes fields and measures such as:
 - number of transactions,
 - average transaction value.
 
-## Results
+## Results 🏆
 
 The report presents the company's sales results from January 2025 to December 2026. The story that emerges is one of strong growth, but also of concentration: a relatively small number of channels, customer segments, regions, and seasonal periods account for a large part of the result.
 
@@ -395,7 +399,7 @@ The main business metrics include:
 - **Customer segment share** — contribution of each segment to total sales,
 - **Year over Year (YoY) growth** — change in sales compared with the previous year.
 
-## Findings
+## Findings 💡
 
 The analysis starts with growth. Sales increased by **156%** compared with the previous year, rising from **PLN 2.87 million in 2025** to **PLN 7.35 million in 2026**. In other words, 2026 sales reached approximately **256% of the 2025 level**.
 
@@ -415,7 +419,7 @@ At product level, **P013** was the best-selling product, generating **PLN 563.99
 
 Finally, the order process itself performs well. **84.93%** of orders were completed, **9.47%** remained in progress, and **5.60%** were cancelled.
 
-## Business recommendations
+## Business recommendations ✅
 
 The report does not end with a list of KPIs. The purpose of the analytical story is to translate patterns into business actions.
 
@@ -426,7 +430,18 @@ The report does not end with a list of KPIs. The purpose of the analytical story
 - Product decisions should consider profitability, not only sales volume. **Accessories reach the highest margin at 54%**, which makes them a natural candidate for bundles and cross-selling with electronics and computers.
 - The **5.60% cancellation rate** should be broken down by product, channel, region, and customer context to identify avoidable sources of lost revenue.
 
-## Summary
+## Business Development Opportunities 🚀
+
+The findings suggest several directions for future growth. These are ideas to validate through small pilots, not proven outcomes:
+
+- **Test regional campaigns in East and North.** Tailor promotions and product availability to local demand, then compare incremental sales and margin with a control period or region.
+- **Grow the Online channel.** Test improvements to product discovery, checkout, and online promotions, measuring conversion, average transaction value, and profitability.
+- **Develop B2B and VIP retention.** Pilot repeat-order offers, account plans, or tailored loyalty benefits and track customer retention and revenue per customer.
+- **Expand cross-selling and bundles.** Pair high-margin Accessories with Electronics and Computers, then measure bundle uptake and the effect on gross margin.
+- **Prepare earlier for the Q4 peak.** Test campaigns before October and coordinate stock and staffing ahead of November, monitoring sales, availability, and fulfilment.
+- **Reduce avoidable cancellations.** Identify the main cancellation causes by channel, region, and product, then test targeted fixes and track the cancellation rate.
+
+## Summary 📝
 
 This project demonstrates how a Power BI report can be designed as a connected analytical journey rather than as a collection of independent charts.
 
@@ -435,5 +450,3 @@ The process begins with data preparation in Power Query, continues through a rel
 From a business perspective, the company is growing quickly while maintaining a margin of approximately **50%**. Growth is strongly concentrated in **Partner and Online channels**, **VIP and B2B segments**, **South and West regions**, and the autumn sales peak. This creates clear opportunities for further development, but it also highlights concentration risk and the need to investigate weaker regions, reduce cancellations, and improve product data quality.
 
 The analysis covered **14,811 valid transactions** after data cleaning. Products P031–P050 were grouped into **“Others”**, which limits detailed assortment analysis for that part of the catalog and remains an area for future data-quality improvement.
-
-
