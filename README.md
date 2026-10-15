@@ -82,18 +82,29 @@ The ETL process was performed in Power Query. The first stage focused on the sal
 
 ![Sales table 2](screens/Tabela_sprzedaz_2.png)
 
-As part of the preparation process:
+As part of the preparation process, the following issues were addressed. Each step had a specific analytical purpose:
 
-- correct headers and data types were set, including appropriate regional settings for dates,
-- invalid values in date columns were removed,
-- customer and product identifiers were extracted from disorganized source fields,
-- customer identifiers were standardized by adding the appropriate prefix,
-- unnecessary spaces and redundant characters were removed,
-- region names were cleaned and standardized,
-- order status values were standardized as `Done`, `In progress`, and `Cancelled`,
-- missing discount values were replaced with zeros,
-- unnecessary technical columns were removed,
-- duplicate transactions were identified and removed.
+- **Headers and data types were corrected**, including regional settings for dates. This ensures that Power Query interprets dates and numeric fields consistently, so sorting, filtering, and calculations use the intended values.
+
+- **Invalid date values were removed** because unreliable dates could place transactions in the wrong reporting period or distort monthly trends and year-over-year comparisons.
+
+- **Customer and product identifiers were extracted** from disorganized source fields to create usable keys for joining transactions with customer and product tables. Without consistent identifiers, some sales might be incorrectly assigned or left unmatched.
+
+- **Customer identifiers received a consistent prefix** so that the same customer could be matched across tables despite differences in source formatting.
+
+- **Extra spaces and redundant characters were removed** to prevent visually identical values from being treated as separate customers, products, or categories during joins and grouping.
+
+- **Region names were standardized** to avoid splitting sales across multiple labels for the same region and to keep regional sales analysis consistent with the targets table.
+
+- **Order statuses were standardized** as `Done`, `In progress`, and `Cancelled`. A common status dictionary makes transaction counts and cancellation-rate calculations comparable and prevents inconsistent spelling from creating extra status groups.
+
+- **Missing discount values were replaced with zero** so discount-related calculations could handle these rows consistently. This follows the project's assumption that a missing discount means no discount; it should be reviewed if the source system instead uses blanks for unknown discounts.
+
+- **Unnecessary technical columns were removed** because they were not needed in the analytical model. This reduces model clutter and keeps the report focused on business-relevant fields.
+
+- **Duplicate transactions were identified and removed** to prevent the same sale from being counted more than once, which could inflate revenue, transaction volume, and other KPIs. The intent was to remove duplicate records rather than legitimate repeated purchases.
+
+These checks were important because errors in the central `sprzedaz` table would flow directly into sales, margin, customer, and product measures. The cleaned dataset contains **14,811 valid transactions**, compared with 15,000 source records. The difference reflects the cleaning process, but the documentation does not provide a step-by-step breakdown of the removed rows.
 
 Once the fact table was cleaned, the descriptive dimensions were prepared. Customer, product, geography, and channel data were separated and standardized so that each business entity could be analyzed independently.
 
@@ -101,31 +112,31 @@ Once the fact table was cleaned, the descriptive dimensions were prepared. Custo
 
 ![Customers table](screens/Tabela_klienci.png)
 
-The customer table provides the context needed to analyze sales by customer, segment, region, and account manager.
+The customer table provides the context needed to analyze sales by customer, segment, region, and account manager.Keeping these attributes in a separate dimension avoids repeating descriptive information in every transaction and supports consistent customer segmentation.
 
 ### Products 📦
 
 ![Products table](screens/Tabela_produkty.png)
 
-The product table contains the assortment hierarchy used in the report: product, brand, subcategory, category, and base price.
+The product table contains the assortment hierarchy used in the report: product, brand, subcategory, category, and base price. A shared hierarchy helps compare performance at different assortment levels without inconsistent product labels distorting the results.
 
 ### Geography 🌍
 
 ![Geography table](screens/Tabela_geografia.png)
 
-The geography table provides a single regional dimension that can filter both customer-based analysis and sales target analysis.
+The geography table provides a single regional dimension that can filter both customer-based analysis and sales target analysis. This is important because actual sales and targets need to refer to the same regional definitions to be compared meaningfully.
 
 ### Sales channels 🛒
 
 ![Channels table](screens/Tabela_kanały.png)
 
-A separate channel dictionary was created from the sales data so that channel analysis is based on a consistent set of values.
+A separate channel dictionary was created from the sales data so that channel analysis is based on a consistent set of values. This prevents variations in channel labels from fragmenting channel shares and makes filtering easier.
 
 ### Calendar 📅
 
 A dedicated calendar table was created dynamically. Its date range is based on the minimum and maximum dates present in the transaction data, allowing the model to adapt to the source range instead of relying on manually entered boundaries.
 
-The calendar was enriched with year, month number, month name, weekday number, and weekday name. Text labels were assigned the correct sort order so that visuals follow chronological rather than alphabetical order.
+The calendar was enriched with year, month number, month name, weekday number, and weekday name. Text labels were assigned the correct sort order so that visuals follow chronological rather than alphabetical order. This supports reliable time-series comparisons and prevents misleading month ordering in charts.
 
 ![Calendar table](screens/Tabela_kalendarz.png)
 
