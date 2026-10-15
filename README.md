@@ -325,7 +325,7 @@ The page can be filtered using four main slicers:
 
 These slicers create a common analytical context that is reused across the main report pages.
 
-![Report page 1](images/Strona_1.png)
+![Report page 1](screens/Strona_1.png)
 
 ### 2. Channels and customer segments 🛍️
 
@@ -333,7 +333,7 @@ The second page shifts the story from overall performance to **where revenue com
 
 The same four slicers — year, region, channel, and segment — are available here, so the user can narrow the analysis without losing the context established on the first page.
 
-![Report page 2](images/Strona_2.png)
+![Report page 2](screens/Strona_2.png)
 
 ### 3. Products and sales efficiency 📦
 
@@ -341,7 +341,7 @@ The third visible page focuses on **what is being sold and how efficiently the a
 
 Again, the page uses the same four slicers for year, region, channel, and customer segment, keeping navigation consistent across the report.
 
-![Report page 3](images/Strona_3.png)
+![Report page 3](screens/Strona_3.png)
 
 ### 4. Tooltip page 💬
 
